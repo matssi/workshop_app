@@ -1,6 +1,18 @@
 source 'https://rubygems.org'
+
 gem 'cucumber'
-gem 'sinatra'
-gem 'cucumber-sinatra'
-gem 'rspec'
-gem 'capybara'
+  gem 'sinatra'
+  gem 'padrino'
+  gem 'data_mapper'
+  gem 'dm-postgres-adapter'
+  gem 'pg'
+
+group :development, :test do
+  gem 'dm-rspec'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'rspec'
+  gem 'pry'
+  gem 'cucumber-sinatra'
+  gem 'database_cleaner'
+end

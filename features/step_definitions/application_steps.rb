@@ -6,3 +6,7 @@ end
 And(/^I click "([^"]*)" link$/) do |element|
   click_link_or_button element
 end
+
+Then(/^a new "([^"]*)" should be created$/) do |model|
+  expect(Object.const_get(model).count).to eq 1
+end
