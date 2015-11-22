@@ -6,6 +6,7 @@ gem 'cucumber'
   gem 'data_mapper'
   gem 'dm-postgres-adapter'
   gem 'pg'
+  gem 'bcrypt'
 
 group :development, :test do
   gem 'dm-rspec'

@@ -14,7 +14,12 @@ module NavigationHelpers
       '/'
     when /the Course index page/
       '/courses/index'
-
+    when /Registration page/
+      '/users/register'
+    when /Log in page/
+      '/users/login'
+    when /Create course page/
+      '/courses/create'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
