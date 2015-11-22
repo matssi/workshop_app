@@ -7,6 +7,7 @@ gem 'cucumber'
   gem 'dm-postgres-adapter'
   gem 'pg'
   gem 'bcrypt'
+  gem 'prawn'
 
 group :development, :test do
   gem 'dm-rspec'

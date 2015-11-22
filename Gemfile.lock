@@ -142,8 +142,12 @@ GEM
       padrino-core (= 0.13.0)
     padrino-support (0.13.0)
       activesupport (>= 3.1)
+    pdf-core (0.6.0)
     pg (0.18.4)
     polyglot (0.3.5)
+    prawn (2.0.2)
+      pdf-core (~> 0.6.0)
+      ttfunk (~> 1.4.0)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -182,6 +186,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    ttfunk (1.4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uuidtools (2.1.5)
@@ -203,6 +208,7 @@ DEPENDENCIES
   dm-rspec
   padrino
   pg
+  prawn
   pry
   rspec
   sinatra

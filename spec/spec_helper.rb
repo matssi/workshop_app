@@ -6,6 +6,7 @@ require 'rspec'
 require 'dm-rspec'
 require 'bcrypt'
 require 'database_cleaner'
+DataMapper.auto_migrate!
 
 
 RSpec.configure do |config|
