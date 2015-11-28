@@ -23,6 +23,9 @@ module NavigationHelpers
     when /^(.*) show page$/i
       d = Delivery.find(date: $1).first
       "/courses/delivery/show/#{d.id}"
+    when /the valid certificate page/
+      c = Certificate.last
+      "/verify/#{c.identifier}"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

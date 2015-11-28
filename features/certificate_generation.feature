@@ -10,3 +10,4 @@ Scenario: Generate a certificate
   And I am on 2015-12-01 show page
   And I click "Generate certificates" link
   Then 3 certificates should be generated
+  And 3 images of certificates should be created

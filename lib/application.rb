@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'padrino-helpers'
 require 'data_mapper'
 require 'pry'
+require 'dotenv'
 require './lib/course'
 require './lib/user'
 require './lib/delivery'
@@ -10,6 +11,7 @@ require './lib/csv_parse'
 require './lib/certificate'
 
 class WorkshopApp < Sinatra::Base
+  Dotenv.load
   include CSVParse
   register Padrino::Helpers
   set :protect_from_csrf, true
@@ -134,6 +136,17 @@ end
     session[:user_id] = nil
     session[:flash] = 'Successfully logged out'
     redirect '/'
+  end
+
+#### Verification URL ####
+  get '/verify/:hash' do
+    @certificate = Certificate.first(identifier: params[:hash])
+    if @certificate
+      @image = "/img/usr/#{env}/" + [@certificate.student.full_name, @certificate.delivery.start_date].join('_').downcase.gsub!(/\s/, '_') + '.jpg'
+      erb :'verify/valid'
+    else
+      erb :'verify/invalid'
+    end
   end
 
   # start the server if ruby file executed directly
