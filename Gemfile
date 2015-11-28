@@ -11,13 +11,13 @@ gem 'cucumber'
   gem 'rmagick'
   gem 'aws-sdk'
   gem 'dotenv'
+  gem 'pry'
 
 group :development, :test do
   gem 'dm-rspec'
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'rspec'
-  gem 'pry'
   gem 'cucumber-sinatra'
   gem 'database_cleaner'
 end
