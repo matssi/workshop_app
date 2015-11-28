@@ -1,6 +1,6 @@
-<h3 style="color: #368a55">Valid certificate for</h3>
-<h2><%= @certificate.student.full_name %></h2>
-<p><%= @certificate.delivery.course.title %></p>
-<p><%= @certificate.delivery.start_date %></p>
+<h3 style="color: #368a55">Valid course certificate for</h3>
+<h2><%= link_to @certificate.student.full_name, @certificate.certificate_url %></h2>
+<p><%= link_to @certificate.delivery.course.title, "/courses/delivery/show/#{@certificate.delivery.id}" %></p>
+<p>Course date: <%= @certificate.delivery.start_date %></p>
 
-<img src="<%= @image%>" />
+<img src="<%= @certificate.image_url %>" />

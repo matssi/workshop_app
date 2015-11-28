@@ -2,7 +2,6 @@ require 'sinatra/base'
 require 'padrino-helpers'
 require 'data_mapper'
 require 'pry'
-require 'dotenv'
 require './lib/course'
 require './lib/user'
 require './lib/delivery'
@@ -10,8 +9,14 @@ require './lib/student'
 require './lib/csv_parse'
 require './lib/certificate'
 
+if ENV['RACK_ENV'] != 'production'
+require 'dotenv'
+end
+
 class WorkshopApp < Sinatra::Base
-  Dotenv.load
+  if ENV['RACK_ENV'] != 'production'
+    Dotenv.load
+  end
   include CSVParse
   register Padrino::Helpers
   set :protect_from_csrf, true
@@ -82,7 +87,7 @@ end
     redirect 'courses/index'
   end
 
-  get '/courses/delivery/show/:id', auth: :user do
+  get '/courses/delivery/show/:id' do
     @delivery = Delivery.get(params[:id].to_i)
     erb :'courses/deliveries/show'
   end
@@ -93,11 +98,16 @@ end
     redirect "/courses/delivery/show/#{@delivery.id}"
   end
 
-get '/courses/generate/:id' do
+get '/courses/generate/:id', auth: :user do
   @delivery = Delivery.get(params[:id])
-  @delivery.students.each do |student|
-    c = student.certificates.new(created_at: DateTime.now, delivery: @delivery)
-    c.save
+  if !@delivery.certificates.find(delivery_id: @delivery.id).size.nil?
+    session[:flash] = 'Certificates has already been generated'
+  else
+    @delivery.students.each do |student|
+      cert = student.certificates.create(created_at: DateTime.now, delivery: @delivery)
+      CertificateGenerator.generate(cert)
+    end
+    session[:flash] = "Generated #{@delivery.students.count} certificates"
   end
   redirect "/courses/delivery/show/#{@delivery.id}"
 end
