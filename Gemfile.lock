@@ -236,6 +236,7 @@ DEPENDENCIES
   dm-postgres-adapter
   dm-rspec
   dotenv
+  mail
   padrino
   pg
   prawn

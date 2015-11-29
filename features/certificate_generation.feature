@@ -12,7 +12,9 @@ Scenario: Generate a certificate
   Then 3 certificates should be generated
   And 3 images of certificates should be created
   And I should see 3 "view certificate" links
+  And I should see "Generated 3 certificates"
 
 Scenario: Certificate generation is disabled if certificates exists
   Given valid certificates exists
   Then I should not see "Generate certificates"
+

@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'padrino-helpers'
 require 'data_mapper'
 require 'pry'
+require 'mail'
 require './lib/course'
 require './lib/user'
 require './lib/delivery'
@@ -29,6 +30,17 @@ class WorkshopApp < Sinatra::Base
   DataMapper::Model.raise_on_save_failure = true
   DataMapper.finalize
   DataMapper.auto_upgrade!
+
+  Mail.defaults do
+    delivery_method :smtp, {
+      address: 'smtp.gmail.com',
+      port: '587',
+      user_name: ENV['GMAIL_ADDRESS'],
+      password: ENV['GMAIL_PASSWORD'],
+      authentication: :plain,
+      enable_starttls_auto: true
+    }
+  end
 
 
   before do

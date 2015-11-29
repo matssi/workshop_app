@@ -13,6 +13,7 @@ gem 'cucumber'
   gem 'dotenv'
   gem 'pry'
   gem 'bitly'
+  gem 'mail'
 
 group :development, :test do
   gem 'dm-rspec'
