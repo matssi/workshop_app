@@ -1,4 +1,5 @@
 require './lib/certificate_generator'
+require 'bitly'
 
 class Certificate
   include DataMapper::Resource
@@ -30,11 +31,27 @@ before :destroy do
   image_key.delete
 end
 
-  def image_url
+def image_url
     "https://#{ENV['S3_BUCKET']}.s3.amazonaws.com/#{self.image_key}"
-  end
+end
 
-  def certificate_url
+def certificate_url
       "https://#{ENV['S3_BUCKET']}.s3.amazonaws.com/#{self.certificate_key}"
+end
+
+def stats
+  Bitly.use_api_version_3
+  bitly = Bitly.new(ENV['BITLY_USERNAME'], ENV['BITLY_API_KEY'])
+  begin
+    bitly.lookup(self.bitly_lookup).global_clicks
+  rescue
+    0
   end
+end
+
+def bitly_lookup
+  server = ENV['SERVER_URL'] || 'http://localhost:9292/verify/'
+  "#{server}#{self.identifier}"
+end
+
 end

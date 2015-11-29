@@ -39,9 +39,17 @@ describe Certificate do
       expect(@certificate.image_url).to eq 'https://certz.s3.amazonaws.com/pdf/test/thomas_ochman_2015-01-01_learn_to_code_101.jpg'
     end
 
-    it 'can be fetched by #certificate_url' do
-      expect(@certificate.certificate_url).to eq 'https://certz.s3.amazonaws.com/pdf/test/thomas_ochman_2015-01-01_learn_to_code_101.pdf'
-    end
+  it 'can be fetched by #certificate_url' do      expect(@certificate.certificate_url).to eq 'https://certz.s3.amazonaws.com/pdf/test/thomas_ochman_2015-01-01_learn_to_code_101.pdf'
+  end
+
+  it 'returns #bitly_lookup' do
+    expect(@certificate.bitly_lookup).to eq "http://localhost:9292/verify/#{@certificate.identifier}"
+  end
+
+  it 'returns #stats' do
+    expect(@certificate.stats).to eq 0
+  end
+
   end
 end
 

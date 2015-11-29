@@ -1,21 +1,22 @@
 require 'prawn'
 require 'rmagick'
 require 'aws-sdk'
-
 if ENV['RACK_ENV'] != 'production'
   require 'dotenv'
 end
+require 'bitly'
 
 module CertificateGenerator
   if ENV['RACK_ENV'] != 'production'
     Dotenv.load
   end
+  Bitly.use_api_version_3
   CURRENT_ENV = ENV['RACK_ENV'] || 'development'
   PATH = "pdf/#{CURRENT_ENV}/"
   TEMPLATE = File.absolute_path('./pdf/templates/certificate_tpl.jpg')
   URL = ENV['SERVER_URL'] || 'http://localhost:9292/verify/'
   S3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
-
+  BITLY = Bitly.new(ENV['BITLY_USERNAME'], ENV['BITLY_API_KEY'])
   def self.generate(certificate)
     details = {name: certificate.student.full_name,
                date: certificate.delivery.start_date.to_s,
@@ -60,7 +61,7 @@ module CertificateGenerator
       pdf.move_down 95
       pdf.text "Göteborg #{details[:date]}", indent_paragraphs: 120, size: 12
       pdf.move_down 65
-      pdf.text "To verify this certificate, visit: #{details[:verify_url]}", indent_paragraphs: 100, size: 8
+      pdf.text "To verify this certificate, visit: #{get_url(details[:verify_url])}", indent_paragraphs: 100, size: 8
     end
   end
 
@@ -74,6 +75,14 @@ module CertificateGenerator
     s3_certificate_object.upload_file(certificate_output, acl: 'public-read')
     s3_image_object = S3.bucket(ENV['S3_BUCKET']).object(image_output)
     s3_image_object.upload_file(image_output, acl: 'public-read')
+  end
+
+  def self.get_url(url)
+    begin
+      BITLY.shorten(url).short_url
+    rescue
+      url
+    end
   end
 
 end

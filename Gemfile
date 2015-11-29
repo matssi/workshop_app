@@ -12,6 +12,7 @@ gem 'cucumber'
   gem 'aws-sdk'
   gem 'dotenv'
   gem 'pry'
+  gem 'bitly'
 
 group :development, :test do
   gem 'dm-rspec'
